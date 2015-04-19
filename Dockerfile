@@ -22,7 +22,7 @@ RUN yum update -y \
 # ## Install build dependencies
 # (to be removed at the end of this run statement)
   && yum install -y \
-    tar \
+    tar git \
 
 # ## Install Golang
   && cd /tmp \
@@ -32,9 +32,9 @@ RUN yum update -y \
 
 # ## Install Camlistore
   && cd /tmp \
-  && curl -LO "https://github.com/camlistore/camlistore/archive/0.8.tar.gz" \
-  && tar -xzf "0.8.tar.gz" \
-  && cd "/tmp/camlistore-0.8" \
+  && git clone https://camlistore.googlesource.com/camlistore \
+  && cd camlistore \
+  && git checkout 2d1241b \
   && go run make.go \
   && mv ./bin/* /bin \
 
@@ -42,7 +42,7 @@ RUN yum update -y \
   && cd / \
   && rm -rf /tmp && mkdir /tmp \
   && yum remove -y \
-    tar \
+    tar git \
   && yum clean all
 
 
